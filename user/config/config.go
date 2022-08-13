@@ -8,12 +8,14 @@ import (
 )
 
 var (
-	Db         string
-	DbHost     string
-	DbPort     string
-	DbUser     string
-	DbPassWord string
-	DbName     string
+	Db               string
+	DbHost           string
+	DbPort           string
+	DbUser           string
+	DbPassWord       string
+	DbName           string
+	EtcdAddress      string
+	EtcdMicroAddress string
 )
 
 func Init() {
@@ -22,9 +24,15 @@ func Init() {
 	if err != nil {
 		fmt.Println("配置文件路径错误" + configFile)
 	}
+	LoadEtcdData(file)
 	LoadMysqlData(file)
 	mysqlPath := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=true"}, "")
 	model.Database(mysqlPath)
+}
+
+func LoadEtcdData(file *ini.File) {
+	EtcdAddress = file.Section("etcd").Key("Address").String()
+	EtcdMicroAddress = file.Section("etcd").Key("MicroAddress").String()
 }
 
 func LoadMysqlData(file *ini.File) {

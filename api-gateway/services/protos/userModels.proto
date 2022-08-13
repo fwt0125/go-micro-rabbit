@@ -1,0 +1,17 @@
+syntax="proto3";
+package services;
+option go_package="../services";
+
+message UserModel{
+  //@inject_tag: json:"id"
+  uint32 ID = 1;
+  //@inject_tag: json:"user_name"
+  string UserName = 2;
+  //@inject_tag: json:"created_at"
+  string CreatedAt = 3;
+  //@inject_tag: json:"updated_at"
+  string UpdatedAt = 4;
+  //@inject_tag: json:"deleted_at"
+  string DeletedAt = 5;
+}
+
