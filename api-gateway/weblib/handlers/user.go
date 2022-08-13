@@ -8,9 +8,9 @@ import (
 	"net/http"
 )
 
-func UserRegister(ginCtx gin.Context) {
+func UserRegister(ginCtx *gin.Context) {
 	var userReq services.UserRequest
-	PanicIfUserError(ginCtx.Bind(userReq))
+	PanicIfUserError(ginCtx.Bind(&userReq))
 
 	userService := ginCtx.Keys["userService"].(services.UserService)
 	userResp, err := userService.UserRegister(context.Background(), &userReq)
@@ -18,17 +18,19 @@ func UserRegister(ginCtx gin.Context) {
 	ginCtx.JSON(http.StatusOK, gin.H{"data": userResp})
 }
 
-func UserLogin(ctx gin.Context) {
+func UserLogin(ginCtx *gin.Context) {
 	var userReq services.UserRequest
-	PanicIfUserError(ginCtx.Bind(userReq))
+	PanicIfUserError(ginCtx.Bind(&userReq))
 
 	userService := ginCtx.Keys["userService"].(services.UserService)
 	userResp, err := userService.UserLogin(context.Background(), &userReq)
 	PanicIfUserError(err)
-	token, err := utils.GenerateToken(userResp.UserDetail.ID)
+	token, err := utils.GenerateToken(uint(userResp.UserDetail.ID))
+
+	PanicIfUserError(err)
 	ginCtx.JSON(http.StatusOK, gin.H{
 		"code": userResp.Code,
-		"msg":  "suss",
+		"msg":  "success",
 		"data": gin.H{
 			"user":  userResp.UserDetail,
 			"token": token,

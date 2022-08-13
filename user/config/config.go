@@ -28,6 +28,8 @@ func Init() {
 	LoadMysqlData(file)
 	mysqlPath := strings.Join([]string{DbUser, ":", DbPassWord, "@tcp(", DbHost, ":", DbPort, ")/", DbName, "?charset=utf8&parseTime=true"}, "")
 	model.Database(mysqlPath)
+	model.Migration()
+
 }
 
 func LoadEtcdData(file *ini.File) {
@@ -39,6 +41,7 @@ func LoadMysqlData(file *ini.File) {
 	Db = file.Section("mysql").Key("Db").String()
 	DbHost = file.Section("mysql").Key("DbHost").String()
 	DbPort = file.Section("mysql").Key("DbPort").String()
+	DbName = file.Section("mysql").Key("DbName").String()
 	DbUser = file.Section("mysql").Key("DbUser").String()
 	DbPassWord = file.Section("mysql").Key("DbPassWord").String()
 }
