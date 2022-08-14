@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func GetTaskList(ginCtx *gin.Context)  {
+func GetTaskList(ginCtx *gin.Context) {
 	var taskReq services.TaskRequest
 	PanicIfTaskError(ginCtx.Bind(&taskReq))
 
@@ -21,26 +21,25 @@ func GetTaskList(ginCtx *gin.Context)  {
 	PanicIfTaskError(err)
 	ginCtx.JSON(http.StatusOK, gin.H{
 		"data": gin.H{
-			"task" : taskResp.TaskList,
-			"count" :taskResp.Count,
+			"task":  taskResp.TaskList,
+			"count": taskResp.Count,
 		},
 	})
 }
 
-func CreateTask(ginCtx *gin.Context)  {
+func CreateTask(ginCtx *gin.Context) {
 	var taskReq services.TaskRequest
 	PanicIfTaskError(ginCtx.Bind(&taskReq))
 
 	taskService := ginCtx.Keys["taskService"].(services.TaskService)
 	claim, _ := utils.ParseToken(ginCtx.GetHeader("Authorization"))
 	taskReq.Uid = int64(claim.Id)
-
 	taskResp, err := taskService.CreateTask(context.Background(), &taskReq)
 	PanicIfTaskError(err)
 	ginCtx.JSON(http.StatusOK, gin.H{"data": taskResp.TaskDetail})
 }
 
-func GetTaskDetail(ginCtx *gin.Context)  {
+func GetTaskDetail(ginCtx *gin.Context) {
 	var taskReq services.TaskRequest
 	PanicIfTaskError(ginCtx.Bind(&taskReq))
 
@@ -56,7 +55,7 @@ func GetTaskDetail(ginCtx *gin.Context)  {
 	ginCtx.JSON(http.StatusOK, gin.H{"data": taskResp.TaskDetail})
 }
 
-func UpdateTask(ginCtx *gin.Context)  {
+func UpdateTask(ginCtx *gin.Context) {
 	var taskReq services.TaskRequest
 	PanicIfTaskError(ginCtx.Bind(&taskReq))
 
@@ -72,7 +71,7 @@ func UpdateTask(ginCtx *gin.Context)  {
 	ginCtx.JSON(http.StatusOK, gin.H{"data": taskResp.TaskDetail})
 }
 
-func DeleteTask(ginCtx *gin.Context)  {
+func DeleteTask(ginCtx *gin.Context) {
 	var taskReq services.TaskRequest
 	PanicIfTaskError(ginCtx.Bind(&taskReq))
 

@@ -2,11 +2,11 @@ package service
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"mq-server/model"
 )
 
-func CreateTask()  {
+func CreateTask() {
 	channel, err := model.MQ.Channel()
 	if err != nil {
 		panic(err)
@@ -24,7 +24,7 @@ func CreateTask()  {
 			var t model.Task
 			_ = json.Unmarshal(delivery.Body, &t)
 			model.DB.Create(&t)
-			log.Println("Done")
+			fmt.Println("Done")
 			_ = delivery.Ack(false)
 		}
 	}()

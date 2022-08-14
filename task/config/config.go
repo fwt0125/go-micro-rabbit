@@ -8,19 +8,19 @@ import (
 )
 
 var (
-	Db               	string
-	DbHost           	string
-	DbPort           	string
-	DbUser           	string
-	DbPassWord       	string
-	DbName           	string
-	EtcdAddress      	string
-	EtcdMicroAddress 	string
-	RabbitMQ			string
-	RabbitMQUser		string
-	RabbitMQPassword	string
-	RabbitMQHost		string
-	RabbitMQPort		string
+	Db               string
+	DbHost           string
+	DbPort           string
+	DbUser           string
+	DbPassWord       string
+	DbName           string
+	EtcdAddress      string
+	EtcdMicroAddress string
+	RabbitMQ         string
+	RabbitMQUser     string
+	RabbitMQPassword string
+	RabbitMQHost     string
+	RabbitMQPort     string
 )
 
 func Init() {
@@ -34,8 +34,9 @@ func Init() {
 	model.Database(mysqlPath)
 
 	LoadRabbitMQData(file)
-	rabbitMQPath := strings.Join([]string{RabbitMQ, "://", RabbitMQUser, ":", RabbitMQPassword, "@",RabbitMQHost, ":",RabbitMQPort, "/"}, "")
+	rabbitMQPath := strings.Join([]string{RabbitMQ, "://", RabbitMQUser, ":", RabbitMQPassword, "@", RabbitMQHost, ":", RabbitMQPort, "/"}, "")
 	model.RabbitMQ(rabbitMQPath)
+	model.Migration()
 
 }
 
@@ -47,7 +48,6 @@ func LoadMysqlData(file *ini.File) {
 	DbUser = file.Section("mysql").Key("DbUser").String()
 	DbPassWord = file.Section("mysql").Key("DbPassWord").String()
 }
-
 
 func LoadRabbitMQData(file *ini.File) {
 	RabbitMQ = file.Section("rabbitmq").Key("RabbitMQ").String()

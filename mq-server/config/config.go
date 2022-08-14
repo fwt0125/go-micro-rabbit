@@ -8,17 +8,17 @@ import (
 )
 
 var (
-	Db               	string
-	DbHost           	string
-	DbPort           	string
-	DbUser           	string
-	DbPassWord       	string
-	DbName           	string
-	RabbitMQ			string
-	RabbitMQUser		string
-	RabbitMQPassword	string
-	RabbitMQHost		string
-	RabbitMQPort		string
+	Db               string
+	DbHost           string
+	DbPort           string
+	DbUser           string
+	DbPassWord       string
+	DbName           string
+	RabbitMQ         string
+	RabbitMQUser     string
+	RabbitMQPassword string
+	RabbitMQHost     string
+	RabbitMQPort     string
 )
 
 func Init() {
@@ -32,7 +32,7 @@ func Init() {
 	model.Database(mysqlPath)
 
 	LoadRabbitMQData(file)
-	rabbitMQPath := strings.Join([]string{RabbitMQ, "://", RabbitMQUser, ":", RabbitMQPassword, "@",RabbitMQHost, ":",RabbitMQPort, "/"}, "")
+	rabbitMQPath := strings.Join([]string{RabbitMQ, "://", RabbitMQUser, ":", RabbitMQPassword, "@", RabbitMQHost, ":", RabbitMQPort, "/"}, "")
 	model.RabbitMQ(rabbitMQPath)
 
 }
@@ -46,11 +46,10 @@ func LoadMysqlData(file *ini.File) {
 	DbPassWord = file.Section("mysql").Key("DbPassWord").String()
 }
 
-
 func LoadRabbitMQData(file *ini.File) {
-	RabbitMQ = file.Section("rabbit").Key("RabbitMQ").String()
-	RabbitMQUser = file.Section("rabbit").Key("RabbitMQUser").String()
-	RabbitMQPassword = file.Section("rabbit").Key("RabbitMQPassword").String()
-	RabbitMQHost = file.Section("rabbit").Key("RabbitMQHost").String()
-	RabbitMQPort = file.Section("rabbit").Key("RabbitMQPort").String()
+	RabbitMQ = file.Section("rabbitmq").Key("RabbitMQ").String()
+	RabbitMQUser = file.Section("rabbitmq").Key("RabbitMQUser").String()
+	RabbitMQPassword = file.Section("rabbitmq").Key("RabbitMQPassword").String()
+	RabbitMQHost = file.Section("rabbitmq").Key("RabbitMQHost").String()
+	RabbitMQPort = file.Section("rabbitmq").Key("RabbitMQPort").String()
 }
