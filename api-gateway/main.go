@@ -21,12 +21,18 @@ func main() {
 		micro.Name("userService.client"),
 		micro.WrapClient(wrappers.NewUserWrapper),
 	)
-
 	userService := services.NewUserService("rpcUserService", userMicroService.Client())
+
+	taskMicroService := micro.NewService(
+		micro.Name("taskService.client"),
+		micro.WrapClient(wrappers.NewTaskWrapper),
+	)
+	taskService := services.NewTaskService("rpcTaskService", taskMicroService.Client())
+
 	server := web.NewService(
 		web.Name("httpServer"),
 		web.Address(":3000"),
-		web.Handler(weblib.NewRouter(userService)),
+		web.Handler(weblib.NewRouter(userService, taskService)),
 		web.Registry(etcdReg),
 		web.RegisterTTL(time.Second*30),
 		web.RegisterInterval(time.Second*15),

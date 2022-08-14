@@ -1,0 +1,44 @@
+syntax="proto3";
+package services;
+import "taskModel.proto";
+option go_package="../services";
+
+message TaskRequest{
+  //@inject_tag: json:"Id" form:"Id"
+  int64 Id = 1;
+  //@inject_tag: json:"Uid" form:"Uid"
+  int64 Uid =2;
+  //@inject_tag: json:"Title" form:"Title"
+  string Title=3;
+  //@inject_tag: json:"Content" form:"Content"
+  string Content=4;
+  //@inject_tag: json:"StartTime" form:"StartTime"
+  int64 StartTime=5;
+  //@inject_tag: json:"EndTime" form:"EndTime"
+  int64 EndTime=6;
+  //@inject_tag: json:"Status" form:"Status"
+  int64 Status=7;
+  //@inject_tag: json:"Start" form:"Start"
+  int32 Start=8;
+  //@inject_tag: json:"Limit" form:"Limit"
+  int32 Limit=9;
+}
+
+message TaskResponse{
+  repeated TaskModel TaskList=1;
+  //@inject: json:"Count"
+  int64 Count=2;
+}
+
+
+message TaskDetailResponse{
+  TaskModel TaskDetail = 1;
+}
+
+service TaskService{
+  rpc CreateTask(TaskRequest) returns(TaskDetailResponse);
+  rpc GetTaskList(TaskRequest) returns(TaskResponse);
+  rpc GetTask(TaskRequest) returns(TaskDetailResponse);
+  rpc UpdateTask(TaskRequest) returns(TaskDetailResponse);
+  rpc DeleteTask(TaskRequest) returns(TaskDetailResponse);
+}
